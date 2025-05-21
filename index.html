@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sleek Dashboard</title>
+  <title>Dashboard</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/danfojs@1.4.0/lib/bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/danfojs@1.2.0/lib/bundle.min.js"></script>
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -57,7 +57,7 @@
 </head>
 <body>
   <header>
-    <h1>Sleek SaaS Dashboard</h1>
+    <h1>Dashboard</h1>
   </header>
   <main class="dashboard">
     <div class="card" id="revenue"><div class="chart"></div></div>
@@ -68,7 +68,6 @@
   </main>
 
   <script>
-    const dfd = danfo;
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
     const revenueData = new dfd.DataFrame({
