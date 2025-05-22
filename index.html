@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sleek Dashboard</title>
+  <title>Dashboard</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/danfojs@1.2.0/lib/bundle.min.js"></script>
   <style>
@@ -30,7 +30,7 @@
     .dashboard {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: 300px;
+      grid-auto-rows: 400px;
       gap: 1rem;
       padding: 2rem;
     }
@@ -40,24 +40,27 @@
       padding: 1.25rem;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .card:hover {
       transform: translateY(-2px);
     }
     .chart {
-      width: 100%;
-      height: 100%;
+      width: 95%;
+      height: 95%;
     }
     #revenue { grid-column: span 6; }
     #users { grid-column: span 6; }
-    #duration { grid-column: span 4; }
+    #duration { grid-column: span 8; grid-row: span 2; }
     #conversion { grid-column: span 4; }
     #region { grid-column: span 4; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Sleek SaaS Dashboard</h1>
+    <h1>Dashboard</h1>
   </header>
   <main class="dashboard">
     <div class="card" id="revenue"><div class="chart"></div></div>
@@ -79,8 +82,15 @@
       users: [200, 300, 400, 500, 600, 750],
     });
     const sessionData = new dfd.DataFrame({
-      month: months,
-      duration: [4.2, 4.5, 4.3, 4.6, 4.7, 5.0],
+      x: [0,1,2,3,4],
+      y: [0,1,2,3,4],
+      z: [
+        [8, 8, 7, 6, 5],
+        [7, 7, 6, 5, 4],
+        [6, 6, 5, 4, 3],
+        [5, 5, 4, 3, 2],
+        [4, 4, 3, 2, 1]
+      ]
     });
     const conversionData = new dfd.DataFrame({
       month: months,
@@ -117,19 +127,13 @@
     });
 
     Plotly.newPlot("duration", [{
-      x: [1,2,3,4,5,6,7,8,9,10],
-      y: [1,3,2,4,5,6,4,5,6,7],
-      z: [10,11,12,13,14,15,16,17,18,19],
-      mode: 'markers',
-      type: 'scatter3d',
-      marker: {
-        size: 6,
-        color: [10,11,12,13,14,15,16,17,18,19],
-        colorscale: 'Viridis',
-        opacity: 0.8
-      }
+      type: 'surface',
+      x: sessionData.x,
+      y: sessionData.y,
+      z: sessionData.z,
+      colorscale: 'Viridis'
     }], {
-      title: { text: "3D Session Overview", font: { color: '#f8fafc' } },
+      title: { text: "3D Session Surface", font: { color: '#f8fafc' } },
       paper_bgcolor: '#1e293b',
       plot_bgcolor: '#1e293b',
       font: { color: '#f8fafc' }
