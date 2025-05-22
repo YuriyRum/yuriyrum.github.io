@@ -43,6 +43,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: auto;
     }
     .card:hover {
       transform: translateY(-2px);
@@ -50,6 +51,19 @@
     .chart {
       width: 95%;
       height: 95%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #f8fafc;
+    }
+    th, td {
+      border: 1px solid #334155;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #334155;
     }
     #revenue { grid-column: span 6; }
     #users { grid-column: span 6; }
@@ -65,7 +79,7 @@
   <main class="dashboard">
     <div class="card" id="revenue"><div class="chart"></div></div>
     <div class="card" id="users"><div class="chart"></div></div>
-    <div class="card" id="duration"><div class="chart"></div></div>
+    <div class="card" id="duration"></div>
     <div class="card" id="conversion"><div class="chart"></div></div>
     <div class="card" id="region"><div class="chart"></div></div>
   </main>
@@ -80,17 +94,6 @@
     const usersData = new dfd.DataFrame({
       month: months,
       users: [200, 300, 400, 500, 600, 750],
-    });
-    const sessionData = new dfd.DataFrame({
-      x: [0,1,2,3,4],
-      y: [0,1,2,3,4],
-      z: [
-        [8, 8, 7, 6, 5],
-        [7, 7, 6, 5, 4],
-        [6, 6, 5, 4, 3],
-        [5, 5, 4, 3, 2],
-        [4, 4, 3, 2, 1]
-      ]
     });
     const conversionData = new dfd.DataFrame({
       month: months,
@@ -126,18 +129,40 @@
       font: { color: '#f8fafc' }
     });
 
-    Plotly.newPlot("duration", [{
-      type: 'surface',
-      x: sessionData.x,
-      y: sessionData.y,
-      z: sessionData.z,
-      colorscale: 'Viridis'
-    }], {
-      title: { text: "3D Session Surface", font: { color: '#f8fafc' } },
-      paper_bgcolor: '#1e293b',
-      plot_bgcolor: '#1e293b',
-      font: { color: '#f8fafc' }
+    const tableData = [
+      { metric: "Bounce Rate", value: "32.5%" },
+      { metric: "Pages / Session", value: "5.2" },
+      { metric: "Avg. Session Duration", value: "03:45" },
+      { metric: "Returning Users", value: "42%" },
+      { metric: "New Users", value: "58%" },
+    ];
+
+    const durationCard = document.getElementById("duration");
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+
+    const headerRow = document.createElement("tr");
+    ["Metric", "Value"].forEach(text => {
+      const th = document.createElement("th");
+      th.innerText = text;
+      headerRow.appendChild(th);
     });
+    thead.appendChild(headerRow);
+
+    tableData.forEach(row => {
+      const tr = document.createElement("tr");
+      Object.values(row).forEach(val => {
+        const td = document.createElement("td");
+        td.innerText = val;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    durationCard.appendChild(table);
 
     Plotly.newPlot("conversion", [{
       x: conversionData["month"].values,
