@@ -1,191 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sleek Dashboard</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/danfojs@1.2.0/lib/bundle.min.js"></script>
-    <style>
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #0f172a;
-            color: #f8fafc;
-        }
-
-        header {
-            padding: 1rem 2rem;
-            background-color: #1e293b;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        header h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-auto-rows: 300px;
-            gap: 1rem;
-            padding: 2rem;
-        }
-
-        .card {
-            background: #1e293b;
-            border-radius: 20px;
-            padding: 1.25rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            transition: transform 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-        }
-
-        .chart {
-            width: 100%;
-            height: 100%;
-        }
-
-        #revenue {
-            grid-column: span 6;
-        }
-
-        #users {
-            grid-column: span 6;
-        }
-
-        #duration {
-            grid-column: span 4;
-        }
-
-        #conversion {
-            grid-column: span 4;
-        }
-
-        #region {
-            grid-column: span 4;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sleek Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/danfojs@1.2.0/lib/bundle.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0f172a;
+      color: #f8fafc;
+    }
+    header {
+      padding: 1rem 2rem;
+      background-color: #1e293b;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 300px;
+      gap: 1rem;
+      padding: 2rem;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 20px;
+      padding: 1.25rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+    }
+    .chart {
+      width: 100%;
+      height: 100%;
+    }
+    #revenue { grid-column: span 6; }
+    #users { grid-column: span 6; }
+    #duration { grid-column: span 4; }
+    #conversion { grid-column: span 4; }
+    #region { grid-column: span 4; }
+  </style>
 </head>
-
 <body>
-    <header>
-        <h1>Sleek SaaS Dashboard</h1>
-    </header>
-    <main class="dashboard">
-        <div class="card" id="revenue">
-            <div class="chart"></div>
-        </div>
-        <div class="card" id="users">
-            <div class="chart"></div>
-        </div>
-        <div class="card" id="duration">
-            <div class="chart"></div>
-        </div>
-        <div class="card" id="conversion">
-            <div class="chart"></div>
-        </div>
-        <div class="card" id="region">
-            <div class="chart"></div>
-        </div>
-    </main>
+  <header>
+    <h1>Dashboard</h1>
+  </header>
+  <main class="dashboard">
+    <div class="card" id="revenue"><div class="chart"></div></div>
+    <div class="card" id="users"><div class="chart"></div></div>
+    <div class="card" id="duration"><div class="chart"></div></div>
+    <div class="card" id="conversion"><div class="chart"></div></div>
+    <div class="card" id="region"><div class="chart"></div></div>
+  </main>
 
-    <script>
+  <script>
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    const revenueData = new dfd.DataFrame({
+      month: months,
+      revenue: [12000, 15000, 17000, 14000, 18000, 20000],
+    });
+    const usersData = new dfd.DataFrame({
+      month: months,
+      users: [200, 300, 400, 500, 600, 750],
+    });
+    const sessionData = new dfd.DataFrame({
+      month: months,
+      duration: [4.2, 4.5, 4.3, 4.6, 4.7, 5.0],
+    });
+    const conversionData = new dfd.DataFrame({
+      month: months,
+      rate: [1.2, 1.5, 1.4, 1.7, 2.0, 2.1],
+    });
+    const regionData = new dfd.DataFrame({
+      region: ["North America", "Europe", "Asia", "South America"],
+      users: [300, 250, 400, 100],
+    });
 
-        const revenueData = new dfd.DataFrame({
-            month: months,
-            revenue: [12000, 15000, 17000, 14000, 18000, 20000],
-        });
-        const usersData = new dfd.DataFrame({
-            month: months,
-            users: [200, 300, 400, 500, 600, 750],
-        });
-        const sessionData = new dfd.DataFrame({
-            month: months,
-            duration: [4.2, 4.5, 4.3, 4.6, 4.7, 5.0],
-        });
-        const conversionData = new dfd.DataFrame({
-            month: months,
-            rate: [1.2, 1.5, 1.4, 1.7, 2.0, 2.1],
-        });
-        const regionData = new dfd.DataFrame({
-            region: ["North America", "Europe", "Asia", "South America"],
-            users: [300, 250, 400, 100],
-        });
+    Plotly.newPlot("revenue", [{
+      x: revenueData["month"].values,
+      y: revenueData["revenue"].values,
+      type: "bar",
+      marker: { color: '#6366f1' }
+    }], {
+      title: { text: "Monthly Revenue", font: { color: '#f8fafc' } },
+      paper_bgcolor: '#1e293b',
+      plot_bgcolor: '#1e293b',
+      font: { color: '#f8fafc' }
+    });
 
-        Plotly.newPlot("revenue", [{
-            x: revenueData["month"].values,
-            y: revenueData["revenue"].values,
-            type: "bar",
-            marker: { color: '#6366f1' }
-        }], {
-            title: { text: "Monthly Revenue", font: { color: '#f8fafc' } },
-            paper_bgcolor: '#1e293b',
-            plot_bgcolor: '#1e293b',
-            font: { color: '#f8fafc' }
-        });
+    Plotly.newPlot("users", [{
+      x: usersData["month"].values,
+      y: usersData["users"].values,
+      type: "scatter",
+      mode: "lines+markers",
+      line: { color: '#10b981' }
+    }], {
+      title: { text: "User Growth", font: { color: '#f8fafc' } },
+      paper_bgcolor: '#1e293b',
+      plot_bgcolor: '#1e293b',
+      font: { color: '#f8fafc' }
+    });
 
-        Plotly.newPlot("users", [{
-            x: usersData["month"].values,
-            y: usersData["users"].values,
-            type: "scatter",
-            mode: "lines+markers",
-            line: { color: '#10b981' }
-        }], {
-            title: { text: "User Growth", font: { color: '#f8fafc' } },
-            paper_bgcolor: '#1e293b',
-            plot_bgcolor: '#1e293b',
-            font: { color: '#f8fafc' }
-        });
+    Plotly.newPlot("duration", [{
+      x: sessionData["month"].values,
+      y: sessionData["duration"].values,
+      type: "scatter",
+      mode: "lines",
+      line: { color: '#f59e0b' }
+    }], {
+      title: { text: "Avg Session Duration", font: { color: '#f8fafc' } },
+      paper_bgcolor: '#1e293b',
+      plot_bgcolor: '#1e293b',
+      font: { color: '#f8fafc' }
+    });
 
-        Plotly.newPlot("duration", [{
-            x: sessionData["month"].values,
-            y: sessionData["duration"].values,
-            type: "scatter",
-            mode: "lines",
-            line: { color: '#f59e0b' }
-        }], {
-            title: { text: "Avg Session Duration", font: { color: '#f8fafc' } },
-            paper_bgcolor: '#1e293b',
-            plot_bgcolor: '#1e293b',
-            font: { color: '#f8fafc' }
-        });
+    Plotly.newPlot("conversion", [{
+      x: conversionData["month"].values,
+      y: conversionData["rate"].values,
+      mode: 'markers',
+      marker: {
+        size: conversionData["rate"].values.map(x => x * 10),
+        color: '#ef4444',
+        sizemode: 'area'
+      },
+      type: 'scatter'
+    }], {
+      title: { text: "Conversion Rate Bubble", font: { color: '#f8fafc' } },
+      paper_bgcolor: '#1e293b',
+      plot_bgcolor: '#1e293b',
+      font: { color: '#f8fafc' }
+    });
 
-        Plotly.newPlot("conversion", [{
-            x: conversionData["month"].values,
-            y: conversionData["rate"].values,
-            type: "bar",
-            marker: { color: '#ef4444' }
-        }], {
-            title: { text: "Conversion Rate", font: { color: '#f8fafc' } },
-            paper_bgcolor: '#1e293b',
-            plot_bgcolor: '#1e293b',
-            font: { color: '#f8fafc' }
-        });
-
-        Plotly.newPlot("region", [{
-            labels: regionData["region"].values,
-            values: regionData["users"].values,
-            type: "pie"
-        }], {
-            title: { text: "Users by Region", font: { color: '#f8fafc' } },
-            paper_bgcolor: '#1e293b',
-            plot_bgcolor: '#1e293b',
-            font: { color: '#f8fafc' }
-        });
-    </script>
+    Plotly.newPlot("region", [{
+      labels: regionData["region"].values,
+      values: regionData["users"].values,
+      type: "pie"
+    }], {
+      title: { text: "Users by Region", font: { color: '#f8fafc' } },
+      paper_bgcolor: '#1e293b',
+      plot_bgcolor: '#1e293b',
+      font: { color: '#f8fafc' }
+    });
+  </script>
 </body>
-
 </html>
