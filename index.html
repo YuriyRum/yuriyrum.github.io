@@ -54,6 +54,7 @@
     }
     table {
       width: 100%;
+      height: 100%;
       border-collapse: collapse;
       color: #f8fafc;
     }
@@ -162,6 +163,8 @@
 
     table.appendChild(thead);
     table.appendChild(tbody);
+    table.style.height = "100%";
+    table.style.width = "100%";
     durationCard.appendChild(table);
 
     Plotly.newPlot("conversion", [{
