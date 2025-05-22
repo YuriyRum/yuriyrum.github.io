@@ -166,6 +166,14 @@
     table.appendChild(tbody);
     table.style.height = "100%";
     table.style.width = "100%";
+
+    const title = document.createElement("h2");
+    title.innerText = "Engagement Metrics";
+    title.style.marginBottom = "1rem";
+    title.style.fontSize = "1.25rem";
+    title.style.color = "#f8fafc";
+    
+    durationCard.appendChild(title);
     durationCard.appendChild(table);
 
     Plotly.newPlot("conversion", [{
