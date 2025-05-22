@@ -57,7 +57,7 @@
 </head>
 <body>
   <header>
-    <h1>Dashboard</h1>
+    <h1>Sleek SaaS Dashboard</h1>
   </header>
   <main class="dashboard">
     <div class="card" id="revenue"><div class="chart"></div></div>
@@ -117,13 +117,19 @@
     });
 
     Plotly.newPlot("duration", [{
-      x: sessionData["month"].values,
-      y: sessionData["duration"].values,
-      type: "scatter",
-      mode: "lines",
-      line: { color: '#f59e0b' }
+      x: [1,2,3,4,5,6,7,8,9,10],
+      y: [1,3,2,4,5,6,4,5,6,7],
+      z: [10,11,12,13,14,15,16,17,18,19],
+      mode: 'markers',
+      type: 'scatter3d',
+      marker: {
+        size: 6,
+        color: [10,11,12,13,14,15,16,17,18,19],
+        colorscale: 'Viridis',
+        opacity: 0.8
+      }
     }], {
-      title: { text: "Avg Session Duration", font: { color: '#f8fafc' } },
+      title: { text: "3D Session Overview", font: { color: '#f8fafc' } },
       paper_bgcolor: '#1e293b',
       plot_bgcolor: '#1e293b',
       font: { color: '#f8fafc' }
